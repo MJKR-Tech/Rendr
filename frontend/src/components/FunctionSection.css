@@ -1,0 +1,147 @@
+video {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: -1;
+}
+
+function-container {
+    height: 200vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    object-fit: contain;
+    /* box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2); */
+}
+
+.background-image {
+    background: url('/images/alt-background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.function-container > p {
+    margin-top: 8px;
+    font-size: auto;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.imageC {
+}
+
+.imageR {
+    width: 50%;
+    margin-left: 2%;
+    border-radius: 10%;
+    padding-left: 3%;
+    padding-right: 3%;    
+}
+
+.imageL {
+    width: 50%;
+    margin-right: 2%;
+    border-radius: 10%;
+    padding-left: 3%;
+    padding-right: 3%;  
+}
+
+.title {
+    color: #459ec4;
+    font-size: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 50px;
+    margin-left: 10%;
+    padding-top: 50px;
+}
+
+.content {
+    color: #000000;
+    font-size: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+}
+
+.subContentL {
+    color: #000000;
+    font-size: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 2%;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.subContentR {
+    color: #000000;
+    font-size: auto;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-top: 2%;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.subContent {
+    color: #000000;
+    font-size: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+/* .function-btns {
+    margin-top: 32px;
+}
+
+.function-btns .btn {
+    margin: 6px;
+}
+
+.fa-play-circle {
+    margin-left: 4px;
+} */
+
+@media screen and (max-width: 960px) {
+    .function-container > h1 {
+        font-size: 70px;
+        margin-top: -150px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .function-container > h1 {
+        font-size: 50px;
+        margin-top: -300px;
+    }
+
+    .hero-container {
+        font-size: 30px;
+    }
+
+    .btn-mobile {
+        display: block;
+        text-decoration: none;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,40 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.mjkrt'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.4'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
+	implementation 'org.apache.poi:poi:5.2.0'
+	implementation 'org.apache.poi:poi-ooxml:5.2.0'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	runtimeOnly 'com.h2database:h2:2.1.210'
+	runtimeOnly 'mysql:mysql-connector-java:8.0.28'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
+}
+
+test {
+	useJUnitPlatform()
+
+	testLogging {
+		events "passed", "skipped", "failed"
+
+		showExceptions true
+		exceptionFormat "full"
+		showCauses true
+		showStackTraces true
+		showStandardStreams = false
+	}
+}
