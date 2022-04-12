@@ -29,7 +29,6 @@ import com.mjkrt.rendr.entity.helper.TemplateIdHolder;
 import com.mjkrt.rendr.service.file.FileService;
 import com.mjkrt.rendr.service.mapper.DataMapperService;
 import com.mjkrt.rendr.service.mapper.JsonService;
-import com.mjkrt.rendr.service.mapper.TableHolderService;
 import com.mjkrt.rendr.service.template.DataTemplateService;
 import com.mjkrt.rendr.service.template.TemplateExtractorService;
 import com.mjkrt.rendr.service.writer.DataWriterService;
@@ -58,9 +57,6 @@ public class ExcelServiceImpl implements ExcelService {
     
     @Autowired
     private JsonService jsonService;
-    
-    @Autowired
-    private TableHolderService tableHolderService;
 
     /**
      * @inheritDoc
