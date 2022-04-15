@@ -244,7 +244,7 @@ public class TemplateExtractorServiceImpl implements TemplateExtractorService {
             DataDirection direction) {
 
         LOG.info("Filtering containers together by direction " + direction);
-        Comparator<DataContainer> comparator = (direction == HORIZONTAL)
+        Comparator<DataContainer> comparator = (direction == VERTICAL)
                 ? Comparator.comparing(DataContainer::getRowNum)
                         .thenComparing(DataContainer::getColNum)
                 : Comparator.comparing(DataContainer::getColNum)
