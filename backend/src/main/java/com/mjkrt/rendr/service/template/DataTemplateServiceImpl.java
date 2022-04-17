@@ -41,18 +41,6 @@ public class DataTemplateServiceImpl implements DataTemplateService {
      * @inheritDoc
      */
     @Override
-    public List<Long> listAllIds() {
-        LOG.info("Listing all dataTemplateIds");
-        Sort sortByTemplateIdAsc = Sort.by(Sort.Direction.ASC, "templateId");
-        return dataTemplateRepository.findAll(sortByTemplateIdAsc).stream()
-                .map(DataTemplate::getTemplateId)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
     public DataTemplate findById(long id) {
         LOG.info("Finding dataTemplate by id " + id);
         return dataTemplateRepository.getById(id);
@@ -83,15 +71,6 @@ public class DataTemplateServiceImpl implements DataTemplateService {
     public void deleteById(long id) {
         LOG.info("Deleting dataTemplate by id " + id);
         dataTemplateRepository.deleteById(id);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public void deleteAll() {
-        LOG.info("Deleting all dataTemplates");
-        dataTemplateRepository.deleteAll();
     }
 
     /**

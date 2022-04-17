@@ -4,7 +4,8 @@ DROP TABLE IF EXISTS data_cell, data_container, data_table, data_sheet, data_tem
 CREATE TABLE data_template (
     template_id BIGINT AUTO_INCREMENT,
     template_name VARCHAR(255) NOT NULL,
-    date_created DATE,
+    excel_file MEDIUMBLOB NOT NULL,
+    datetime_created DATETIME NOT NULL,
     PRIMARY KEY (template_id) 
 );
 ALTER TABLE data_template AUTO_INCREMENT = 1;

@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.mjkrt.rendr.entity.DataTemplate;
-import com.mjkrt.rendr.service.file.FileService;
 import com.mjkrt.rendr.service.mapper.DataMapperService;
 import com.mjkrt.rendr.service.template.DataTemplateService;
 import com.mjkrt.rendr.service.template.TemplateExtractorService;
@@ -38,9 +37,6 @@ public class ExcelServiceTest {
 
     @Mock
     private DataWriterService dataWriterService;
-
-    @Mock
-    private FileService fileService;
 
     private static List<DataTemplate> generateTemplates() {
         return new ArrayList<>(Arrays.asList(

@@ -32,25 +32,12 @@ public interface ExcelService {
     boolean deleteTemplate(List<Long> templateIds);
 
     /**
-     * Deletes all stored excel templates.
-     */
-    void deleteAllTemplates();
-
-    /**
      * Retrieves the filename of a template corressponding to the given template ID.
      *
      * @param templateId The template ID of the template to get filename of.
      * @return The filename of the template.
      */
     String getFileNameForTemplate(long templateId);
-
-    /**
-     * Returns a sample excel template as a byte stream.
-     *
-     * @return A byte stream representing the template.
-     * @throws IOException If writing fails.
-     */
-    ByteArrayInputStream getSampleTemplate() throws IOException;
 
     /**
      * Returns the excel template corressponding to the given template ID as a byte stream.

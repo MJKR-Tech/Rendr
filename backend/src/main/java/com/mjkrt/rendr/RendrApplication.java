@@ -2,14 +2,12 @@ package com.mjkrt.rendr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * RendrApplication.
  * 
  * Main application for Rendr excel rendering.
  */
-@EnableScheduling
 @SpringBootApplication
 public class RendrApplication {
 	

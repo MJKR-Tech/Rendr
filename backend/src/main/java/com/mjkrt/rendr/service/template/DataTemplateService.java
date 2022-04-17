@@ -22,13 +22,6 @@ public interface DataTemplateService {
     List<DataTemplate> listAll();
 
     /**
-     * Lists all DataTemplate IDs present.
-     * 
-     * @return a list of IDs
-     */
-    List<Long> listAllIds();
-
-    /**
      * Finds a DataTemplate based on an ID.
      * If not present, an EntityNotFound exception will be thrown.
      * 
@@ -61,11 +54,6 @@ public interface DataTemplateService {
      * @param id DataTemplate ID to delete
      */
     void deleteById(long id);
-
-    /**
-     * Deletes all DataTemplates present.
-     */
-    void deleteAll();
 
     /**
      * Finds all DataTables with the specified DataTemplate ID.

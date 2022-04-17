@@ -1,6 +1,6 @@
 package com.mjkrt.rendr.tools;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class MockDataTemplate {
     private long templateId = 0;
     private String templateName = "MockDataTemplate";
     private List<DataSheet> dataSheet = new ArrayList<>();
-    private LocalDate dateCreated = LocalDate.now();
+    private LocalDateTime datetimeCreated = LocalDateTime.now();
 
     public MockDataTemplate() {
     }
@@ -36,8 +36,8 @@ public class MockDataTemplate {
         return this;
     }
 
-    public MockDataTemplate withDateCreated(LocalDate date) {
-        this.dateCreated = date;
+    public MockDataTemplate withDatetimeCreated(LocalDateTime datetime) {
+        this.datetimeCreated = datetime;
         return this;
     }
 
@@ -46,7 +46,7 @@ public class MockDataTemplate {
         newTemplate.setTemplateId(this.templateId);
         newTemplate.setTemplateName(this.templateName);
         newTemplate.setDataSheets(this.dataSheet);
-        newTemplate.setDateCreated(this.dateCreated);
+        newTemplate.setDatetimeCreated(this.datetimeCreated);
         return newTemplate;
     }
 }

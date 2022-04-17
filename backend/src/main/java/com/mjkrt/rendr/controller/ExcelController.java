@@ -37,9 +37,6 @@ import com.mjkrt.rendr.utils.LogsCenter;
 public class ExcelController {
 
     private static final Logger LOG = LogsCenter.getLogger(ExcelController.class);
-
-    @Value("${upload.sample-file}")
-    private String sampleTemplateFileName;
     
     @Autowired
     private ExcelService excelService;
@@ -80,20 +77,6 @@ public class ExcelController {
         LOG.info("DELETE /deleteTemplate/" + templateIds + " called");
         
         return excelService.deleteTemplate(templateIds);
-    }
-
-    /**
-     * Provides the sample template used in the application.
-     * 
-     * @param response HTTP response sent to user
-     * @throws IOException if writing Excel file to response fails or becomes corrupt
-     */
-    @GetMapping("/downloadSampleTemplate")
-    public void downloadTemplate(HttpServletResponse response) throws IOException {
-        LOG.info("POST /downloadTemplate called");
-        
-        ByteArrayInputStream stream = excelService.getSampleTemplate();
-        excelService.copyByteStreamToResponse(response, stream, sampleTemplateFileName);
     }
 
     /**

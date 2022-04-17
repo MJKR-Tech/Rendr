@@ -2,6 +2,7 @@ package com.mjkrt.rendr.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,7 +17,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +26,6 @@ import com.mjkrt.rendr.entity.DataTemplate;
 import com.mjkrt.rendr.entity.helper.ColumnHeader;
 import com.mjkrt.rendr.entity.helper.TableHolder;
 import com.mjkrt.rendr.entity.helper.TemplateIdHolder;
-import com.mjkrt.rendr.service.file.FileService;
 import com.mjkrt.rendr.service.mapper.DataMapperService;
 import com.mjkrt.rendr.service.mapper.JsonService;
 import com.mjkrt.rendr.service.template.DataTemplateService;
@@ -53,9 +52,6 @@ public class ExcelServiceImpl implements ExcelService {
     private DataWriterService dataWriterService;
     
     @Autowired
-    private FileService fileService;
-    
-    @Autowired
     private JsonService jsonService;
 
     /**
@@ -78,14 +74,13 @@ public class ExcelServiceImpl implements ExcelService {
         LOG.info("Uploading file " + file.getOriginalFilename() + " as dataTemplate");
         Optional<DataTemplate> optionalTemplate = Optional.ofNullable(readAsWorkBook(file))
                 .map(workbook -> templateExtractorService.extract(workbook, file.getOriginalFilename()))
+                .map(template -> setFileToTemplate(template, file))
                 .map(this::saveTemplate);
 
         long templateId = optionalTemplate.map(DataTemplate::getTemplateId).orElseThrow();
-        fileService.save(file, templateId + EXCEL_EXT);
         return new TemplateIdHolder(templateId);
-
     }
-
+    
     private Workbook readAsWorkBook(MultipartFile file) {
         LOG.info("Reading file " + file.getOriginalFilename() + " as " + file.getOriginalFilename());
         LOG.info("File content type: " + file.getContentType());
@@ -107,6 +102,17 @@ public class ExcelServiceImpl implements ExcelService {
         }
     }
 
+    private DataTemplate setFileToTemplate(DataTemplate template, MultipartFile file) {
+        LOG.info("Setting file " + file.getOriginalFilename() + " into DataTemplate " + template.getTemplateName());
+        try {
+            template.setMultipartExcelFile(file);
+            return template;
+        } catch (IOException io) {
+            LOG.warning("File could not be saved in instance DataTemplate");
+            return null;
+        }
+    }
+
     private DataTemplate saveTemplate(DataTemplate template) {
         LOG.info("Saving template " + template);
         return dataTemplateService.save(template);
@@ -118,11 +124,7 @@ public class ExcelServiceImpl implements ExcelService {
     @Override
     public boolean deleteTemplate(List<Long> templateIds) {
         LOG.info("Deleting DataTemplates " + templateIds);
-        templateIds.forEach(templateId -> {
-                    LOG.info("Delete template with ID "+ templateId);
-                    dataTemplateService.deleteById(templateId);
-                    fileService.delete(templateId + EXCEL_EXT);
-                });
+        templateIds.forEach(templateId -> dataTemplateService.deleteById(templateId));
         return true;
     }
 
@@ -130,19 +132,8 @@ public class ExcelServiceImpl implements ExcelService {
      * @inheritDoc
      */
     @Override
-    public void deleteAllTemplates() {
-        LOG.info("Deleting all DataTemplates");
-        List<Long> templateIds = dataTemplateService.listAllIds();
-        dataTemplateService.deleteAll();
-        templateIds.forEach(id -> fileService.delete(id + EXCEL_EXT));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
     public String getFileNameForTemplate(long templateId) {
-        LOG.info("Deleting all DataTemplates");
+        LOG.info("Getting filename for template id " + templateId);
         DataTemplate template = dataTemplateService.findById(templateId);
         return template.getTemplateName();
     }
@@ -151,22 +142,12 @@ public class ExcelServiceImpl implements ExcelService {
      * @inheritDoc
      */
     @Override
-    public ByteArrayInputStream getSampleTemplate() throws IOException {
-        LOG.info("Obtaining sample template");
-        Resource sampleResource = fileService.loadSample();
-        byte[] byteArray = IOUtils.toByteArray(sampleResource.getInputStream());
-        return new ByteArrayInputStream(byteArray);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public ByteArrayInputStream getTemplate(long templateId) throws IOException {
+    public ByteArrayInputStream getTemplate(long templateId) {
         LOG.info("Obtaining template with ID "+ templateId);
-        Resource sampleResource = fileService.load(templateId + EXCEL_EXT);
-        byte[] byteArray = IOUtils.toByteArray(sampleResource.getInputStream());
-        return new ByteArrayInputStream(byteArray);
+        if (!dataTemplateService.isPresent(templateId)) {
+            throw new IllegalArgumentException("Template with given ID is not present");
+        }
+        return dataTemplateService.findById(templateId).getExcelFileAsStream();
     }
 
     /**
@@ -201,8 +182,8 @@ public class ExcelServiceImpl implements ExcelService {
         if (!dataTemplateService.isPresent(templateId)) {
             throw new IllegalArgumentException("Template with given ID is not present");
         }
-        Resource templateResource = fileService.load(templateId + EXCEL_EXT);
-        return new XSSFWorkbook(templateResource.getInputStream());
+        InputStream inputStream = dataTemplateService.findById(templateId).getExcelFileAsStream();
+        return new XSSFWorkbook(inputStream);
     }
 
     /**

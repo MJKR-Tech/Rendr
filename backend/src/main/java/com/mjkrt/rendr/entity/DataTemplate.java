@@ -1,7 +1,10 @@
 package com.mjkrt.rendr.entity;
 
-import java.time.LocalDate;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,8 +38,11 @@ public class DataTemplate {
     private List<DataSheet> dataSheets = new ArrayList<>();
 
     private String templateName;
+
+    @JsonIgnore
+    private byte[] excelFile = new byte[0];
     
-    private LocalDate dateCreated = LocalDate.now();
+    private LocalDateTime datetimeCreated = LocalDateTime.now();
 
     public DataTemplate() {
     }
@@ -83,10 +91,6 @@ public class DataTemplate {
         return templateName;
     }
 
-    public LocalDate getDateCreated() {
-        return dateCreated;
-    }
-
     public void setTemplateId(long templateId) {
         this.templateId = templateId;
     }
@@ -95,8 +99,33 @@ public class DataTemplate {
         this.templateName = templateName;
     }
 
-    public void setDateCreated(LocalDate dateCreated) {
-        this.dateCreated = dateCreated;
+    @JsonIgnore
+    public byte[] getExcelFile() {
+        return excelFile;
+    }
+
+    public void setExcelFile(byte[] excelFile) {
+        if (excelFile == null || excelFile.length == 0) {
+            throw new IllegalArgumentException("Excel file to set cannot be null or empty");
+        }
+        this.excelFile = excelFile;
+    }
+
+    public void setMultipartExcelFile(MultipartFile excelFile) throws IOException {
+        setExcelFile(excelFile.getBytes());
+    }
+
+    @JsonIgnore
+    public ByteArrayInputStream getExcelFileAsStream() {
+        return new ByteArrayInputStream(getExcelFile());
+    }
+
+    public LocalDateTime getDatetimeCreated() {
+        return datetimeCreated;
+    }
+
+    public void setDatetimeCreated(LocalDateTime datetimeCreated) {
+        this.datetimeCreated = datetimeCreated;
     }
 
     @Override
@@ -111,12 +140,12 @@ public class DataTemplate {
         return templateId == dataTemplate.templateId
                 && Objects.equals(dataSheets, dataTemplate.dataSheets) 
                 && Objects.equals(templateName, dataTemplate.templateName)
-                && Objects.equals(dateCreated, dataTemplate.dateCreated);
+                && Objects.equals(datetimeCreated, dataTemplate.datetimeCreated);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(templateId, dataSheets, templateName, dateCreated);
+        return Objects.hash(templateId, dataSheets, templateName, Arrays.hashCode(excelFile), datetimeCreated);
     }
 
     @Override
@@ -125,7 +154,8 @@ public class DataTemplate {
                 "templateId=" + templateId +
                 ", sheet=" + dataSheets +
                 ", templateName='" + templateName + '\'' +
-                ", dateCreated=" + dateCreated +
+                ", excelFile_size=" + excelFile.length +
+                ", dateCreated=" + datetimeCreated +
                 '}';
     }
 }
