@@ -47,9 +47,10 @@ public class ExcelServiceTest {
     
     @Test
     public void getTemplates_returnsTemplates() {
-        when(dataTemplateService.listAll()).thenReturn(generateTemplates());
+        List<DataTemplate> templates = generateTemplates();
+        when(dataTemplateService.listAll()).thenReturn(templates);
         
         List<DataTemplate> output = excelService.getTemplates();
-        assertEquals(output, generateTemplates());
+        assertEquals(output, templates);
     }
 }
