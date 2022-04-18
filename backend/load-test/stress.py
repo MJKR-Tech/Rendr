@@ -1,4 +1,5 @@
 import logging
+from pandas import DataFrame
 from tests import test_connection, get_current_template_ids, delete_template_id, getAllTests
 from workers import test_with_workers
 
@@ -14,6 +15,7 @@ class StressTester:
         self.run_count = run_count
         self.is_logging = is_logging
         self.runs_parallel = runs_parallel
+        self.results = dict()
 
     def log(self, message):
         if (self.is_logging):
@@ -36,5 +38,12 @@ class StressTester:
 
         self.log("Running tests")
         self.prepare()
-        [test_with_workers(job, self.run_count, self.runs_parallel, self.is_logging) for job in getAllTests()]
+        for job in getAllTests():
+            times = test_with_workers(job, self.run_count, self.runs_parallel, self.is_logging)
+            self.results[job.__name__] = times
         self.clean()
+
+    def write(self, excel_file):
+        self.log(f"Writing to {excel_file}")
+        dataframe = DataFrame(self.results)
+        dataframe.to_excel(excel_file, sheet_name = "output", index = False)

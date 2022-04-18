@@ -48,3 +48,4 @@ def test_with_workers(job, counts, runs_parallel, is_logging):
     if filtered_times:
         average_time = round(sum(filtered_times) / len(filtered_times), 5)
         LOG.info(f"AVERAGE - {job.__name__} : {average_time} s")
+    return filtered_times
