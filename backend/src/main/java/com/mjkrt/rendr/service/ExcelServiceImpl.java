@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -62,7 +64,8 @@ public class ExcelServiceImpl implements ExcelService {
         LOG.info("Getting all templates");
         
         List<DataTemplate> templates = dataTemplateService.listAll();
-        LOG.info(templates.size() + " templates found: " + templates);
+        LOG.info(templates.size() + " templates found with ids: "
+                + templates.stream().map(DataTemplate::getTemplateId).collect(Collectors.toList()));
         return templates;
     }
 
@@ -83,17 +86,18 @@ public class ExcelServiceImpl implements ExcelService {
     
     private Workbook readAsWorkBook(MultipartFile file) {
         LOG.info("Reading file " + file.getOriginalFilename() + " as " + file.getOriginalFilename());
-        LOG.info("File content type: " + file.getContentType());
-        List<String> excelTypes = List.of(
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // xlsx
-                "application/vnd.ms-excel" // xls
-        );
-        if (file.getContentType() == null || !excelTypes.contains(file.getContentType())) {
+        String extension = Optional.ofNullable(file.getOriginalFilename())
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(f.lastIndexOf(".") + 1))
+                .orElse("");
+        
+        LOG.info("File content type: " + extension);
+        if (!Set.of("xlsx", "xls").contains(extension)) {
             LOG.warning("Invalid file type fed");
             return null;
         }
         try {
-            return (excelTypes.get(0).equals(file.getContentType()))
+            return (extension.equals("xlsx"))
                     ? new XSSFWorkbook(file.getInputStream())
                     : new HSSFWorkbook(file.getInputStream());
         } catch (IOException io) {
@@ -114,7 +118,7 @@ public class ExcelServiceImpl implements ExcelService {
     }
 
     private DataTemplate saveTemplate(DataTemplate template) {
-        LOG.info("Saving template " + template);
+        LOG.info("Saving template " + template.getTemplateName());
         return dataTemplateService.save(template);
     }
 

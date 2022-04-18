@@ -144,6 +144,10 @@ public class DataWriterServiceImpl implements DataWriterService {
                 + ", starting at (" + startRow + ", " + startCol + ")");
         
         Row row = sheet.getRow((int) startRow);
+        if (row == null) {
+            sheet.createRow((int) startRow);
+            row = sheet.getRow((int) startRow);
+        }
         for (String dataValue : data) {
             Cell cell = row.getCell((int) startCol, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
             writeToCell(cell, dataValue, sheet);

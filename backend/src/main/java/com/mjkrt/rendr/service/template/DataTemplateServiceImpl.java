@@ -9,6 +9,7 @@ import com.mjkrt.rendr.utils.LogsCenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
  * 
  * This class helps to implement the services required in DataTemplateService.
  */
+@Transactional
 @Service
 public class DataTemplateServiceImpl implements DataTemplateService {
     
@@ -60,7 +62,7 @@ public class DataTemplateServiceImpl implements DataTemplateService {
      */
     @Override
     public DataTemplate save(DataTemplate dataTemplate) {
-        LOG.info("Saving dataTemplate " + dataTemplate);
+        LOG.info("Saving dataTemplate " + dataTemplate.getTemplateName());
         return dataTemplateRepository.save(dataTemplate);
     }
 
