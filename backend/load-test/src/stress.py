@@ -1,7 +1,7 @@
 import logger
+import pandas
 import tests
 import workers
-from pandas import DataFrame
 
 LOG = logger.getLogger(__name__)
 
@@ -40,5 +40,5 @@ class StressTester:
 
     def write(self, excel_file):
         self.log(f"Writing to {excel_file}")
-        dataframe = DataFrame(self.results)
+        dataframe = pandas.DataFrame(self.results)
         dataframe.to_excel(excel_file, sheet_name = "output", index = False)

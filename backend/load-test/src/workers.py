@@ -1,13 +1,14 @@
 import logger
-from threading import Thread
+import numpy
+import threading
 
 LOG = logger.getLogger(__name__)
 
-class Worker(Thread):
+class Worker(threading.Thread):
     MAX_DIGIT_PAD = 4
 
     def __init__(self, id, action, container, is_logging):
-        Thread.__init__(self)
+        threading.Thread.__init__(self)
         self.id = id
         self.action = action # lambda
         self.container = container
@@ -43,7 +44,15 @@ def test_with_workers(job, counts, runs_parallel, is_logging):
 
     # remove none results and output avrage
     filtered_times = list(filter(lambda time: time is not None, times))
-    if filtered_times:
-        average_time = round(sum(filtered_times) / len(filtered_times), 5)
-        LOG.info(f"AVERAGE - {job.__name__} : {average_time} s")
+    filtered_times.sort()
+    if not filtered_times: return []
+    
+    lower_quartile = numpy.quantile(filtered_times, 0.25)
+    average_time = sum(filtered_times) / len(filtered_times)
+    upper_quartile = numpy.quantile(filtered_times, 0.75)
+    LOG.info(f"LOWER QUARTILE - {job.__name__} : {round(lower_quartile, 5)} s")
+    LOG.info(f"AVERAGE - {job.__name__} : {round(average_time, 5)} s")
+    LOG.info(f"UPPER QUARTILE - {job.__name__} : {round(upper_quartile, 5)} s")
+
+    filtered_times.extend([lower_quartile, average_time, upper_quartile])
     return filtered_times
