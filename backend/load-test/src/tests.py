@@ -1,10 +1,11 @@
 import json
 import os
+import random
 import requests
 
 URL = "http://localhost:8081/api/v1"
-EXCEL_PATH = os.path.join(os.getcwd(), "excel")
-JSON_PATH = os.path.join(os.getcwd(), "json")
+EXCEL_PATH = os.path.join(os.getcwd(), "..", "excel")
+JSON_PATH = os.path.join(os.getcwd(), "..", "json")
 
 def update_path(base_path, file):
     return os.path.join(base_path, file)
@@ -72,6 +73,18 @@ def large_json_test():
 def large_hybrid_test():
     return render_excel_test("Large_Template", "Medium_Data")
 
+def random_choice_test():
+    actions = [
+        get_template_test,
+        template_upload_test,
+        render_excel_test,
+        large_template_test,
+        large_json_test,
+        large_hybrid_test,
+    ]
+    action = random.choice(actions)
+    return action()
+
 def getAllTests():
     return [
         get_template_test,
@@ -80,4 +93,5 @@ def getAllTests():
         large_template_test,
         large_json_test,
         large_hybrid_test,
+        random_choice_test,
     ]
