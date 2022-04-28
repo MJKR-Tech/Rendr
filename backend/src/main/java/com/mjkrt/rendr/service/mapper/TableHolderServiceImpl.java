@@ -150,8 +150,8 @@ public class TableHolderServiceImpl implements TableHolderService {
     /**
      * Returns new list of String naturally joined from two lists.
      *
-     * @param rows1 The first list of String.
-     * @param rows2 The second list of String.
+     * @param thisRow The first list of String.
+     * @param otherRow The second list of String.
      * @param linkedPairs The related indexes of String.
      * @param unrelatedOtherIndexes The unrelated indexes of String.
      * @return The new list of String.
@@ -246,7 +246,7 @@ public class TableHolderServiceImpl implements TableHolderService {
     }
 
     /**
-     * Return copy of List of ColumnHeaders with "MOCK" ColumnHeaders to fill empty Headers.
+     * Returns a copy of List of ColumnHeaders with "MOCK" ColumnHeaders to fill empty Headers.
      *
      * @param currentHeaders The list of ColumnHeaders to copy.
      * @param indexMappings The indexes of where each ColumnHeader to append to, where -1 indicates a "MOCK"
@@ -267,11 +267,11 @@ public class TableHolderServiceImpl implements TableHolderService {
     }
 
     /**
-     * Fills the list of String from set currentRows with empty String at places with "MOCK" ColumnHeaders.
+     * Fills the String list from set currentRows with empty String at places with "MOCK" ColumnHeaders.
      *
      * @param currentRows The set of list of String.
      * @param indexMappings The indexes where -1 indicates a "MOCK" ColumnHeader.
-     * @return
+     * @return set of string lists
      */
     private Set<List<String>> getNewRows(Set<List<String>> currentRows, List<Integer> indexMappings) {
         LOG.info("Calling getNewRows");

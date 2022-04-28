@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class DataTemplate {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long templateId;
 
     @JsonIgnore
@@ -40,6 +41,7 @@ public class DataTemplate {
     private String templateName;
 
     @JsonIgnore
+    @Basic(fetch = FetchType.LAZY)
     private byte[] excelFile = new byte[0];
     
     private LocalDateTime datetimeCreated = LocalDateTime.now();

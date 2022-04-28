@@ -28,7 +28,7 @@ import com.mjkrt.rendr.entity.helper.SortedOrdering;
 public class DataContainer {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long containerId;
 
     @JsonIgnore

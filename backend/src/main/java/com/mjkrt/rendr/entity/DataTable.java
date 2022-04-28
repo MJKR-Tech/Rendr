@@ -30,7 +30,7 @@ import com.mjkrt.rendr.entity.helper.SortedOrdering;
 public class DataTable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tableId;
 
     @JsonIgnore
