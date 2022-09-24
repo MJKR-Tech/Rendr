@@ -12,7 +12,7 @@ Our web application produces an excel report file from JSON data files and an ex
 
 For generic setups, read the `README.md` files in the separate folders.
 
-## Setup Instructions on APIX Sandbox
+## Setup Instructions on APIX Sandbox (for GS Engage purposes)
 
 Ensure that you have git clone the repository on the sandbox.
 
