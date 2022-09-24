@@ -1,6 +1,6 @@
 # Rendr
 
-Customizable Report Rendering with MJKR-Tech’s Rendr for GSEngage21
+Customizable Report Rendering with MJKR-Tech’s Rendr
 
 ## What is Rendr
 
