@@ -1,6 +1,6 @@
 # Rendr
 
-Customizable Report Rendering with MJKR-Tech’s Rendr
+Customizable Report Rendering with MJKR-Tech’s Rendr (without Docker)
 
 ## What is Rendr
 
