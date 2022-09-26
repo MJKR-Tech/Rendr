@@ -8,6 +8,9 @@ This project tackles the problem of automated financial report rendering. Rendr 
 
 Our web application produces an excel report file from JSON data files and an excel template file that the user inputs. The excel templates are stored in a database meaning that the user is able to reuse the template without uploading multiple times. Rendr has the ability to retrieve data from multiple JSON files to produce a single complex report containing one or many tables.
 
+## Docker
+We have created a Dockerized [backend](https://github.com/MJKR-Tech/rendr-backend) and [frontend](https://github.com/MJKR-Tech/rendr-frontend). Access the README in those repos to find out more
+
 ## Setup
 
 For generic setups, read the `README.md` files in the separate folders.
